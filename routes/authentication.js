@@ -81,4 +81,8 @@ router.post("/user", decodeJWT, async (req, res) => {
     }
 })
 
+router.post("/verify", decodeJWT, (req, res) => {
+    return res.json({ success: true });
+})
+
 module.exports = router;

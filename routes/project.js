@@ -1,6 +1,7 @@
 const express = require("express");
 const decodeJWT = require("../middleware/DecodeJWT");
 const Project = require("../models/Project");
+const Task = require("../models/Task");
 const router = express.Router();
 
 router.post("/create", decodeJWT, async (req, res) => {
@@ -8,6 +9,21 @@ router.post("/create", decodeJWT, async (req, res) => {
         const { title, description, status, projectId } = req.body;
         const userId = req.id;
         const _id = projectId;
+
+        if (status === "completed") {
+            const hasPendingTask = await Task.exists({
+                projectId,
+                userId,
+                status: { $ne: "done" }
+            });
+
+            if (hasPendingTask) {
+                return res.status(400).json({
+                    success: false,
+                    message: "All tasks must be 'done' before completing the project."
+                });
+            }
+        }
 
         const project = await Project.findOne({ _id, userId });
         if (project) {

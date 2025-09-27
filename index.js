@@ -16,5 +16,6 @@ app.get("/", (req, res) => {
 
 app.use("/api", require("./routes/authentication"));
 app.use("/project", require("./routes/project"));
+app.use("/task", require("./routes/task"));
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
