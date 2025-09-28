@@ -17,7 +17,7 @@ router.post('/signup', async (req, res) => {
         }
 
         // Hash the password before saving
-        const saltRounds = 10;  // You can adjust the cost factor
+        const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         // Create user with hashed password
